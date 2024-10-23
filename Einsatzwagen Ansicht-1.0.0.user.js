@@ -91,6 +91,10 @@
         let ZStWC = mission_specs_cache.filter(e => e.id == missionID)[0]?.chances?.civil_patrolcar || 0; //
         let GefKW = mission_specs_cache.filter(e => e.id == missionID)[0]?.requirements?.gefkw || 0; //
         let GefKWC = mission_specs_cache.filter(e => e.id == missionID)[0]?.chances?.gefkw || 0; //
+        let PMAllowed = mission_specs_cache.filter(e => e.id == missionID)[0]?.additional?.allow_police_motorcycle_instead_of_fustw || false; //
+        let PMMaxAllowed = mission_specs_cache.filter(e => e.id == missionID)[0]?.additional?.max_police_motorcycle_replacing_police_cars || false; //
+        let ZStWMaxAllowed = mission_specs_cache.filter(e => e.id == missionID)[0]?.additional?.max_civil_patrol_replacing_police_cars || false; //
+        let MaxGef = mission_specs_cache.filter(e => e.id == missionID)[0]?.additional?.max_possible_prisoners || false; //
         //Bereitschaftspolizei
         let LeBefKW = mission_specs_cache.filter(e => e.id == missionID)[0]?.requirements?.lebefkw || 0; //
         let LeBefKWC = mission_specs_cache.filter(e => e.id == missionID)[0]?.chances?.lebefkw || 0; //
@@ -271,6 +275,13 @@
         }
         if (FuStW > 0) {
             let updatedText = `${FuStW}x Funkstreifenwagen`;
+            if (PMAllowed)
+                updatedText += ` [Kompletter Motorrad-Ersatz möglich]`;
+            else
+            if (PMMaxAllowed > 0)
+                updatedText += ` [${PMMaxAllowed}x Motorräder als Ersatz möglich]`;
+            if (ZStWMaxAllowed > 0)
+                updatedText += ` [${ZStWMaxAllowed}x Zivilstreifenwagen als Ersatz möglich]`;
             $('#aao-info').append(updatedText + '<br>');
         }
         if (FuStWDGL> 0) {
@@ -413,7 +424,7 @@
         }
 
         //Informationen
-        if (FPersonal > 0 || Wasser > 0 || WasserPump > 0 || WasserPumpSpeed > 0 || BTMin > 0 || BTMax > 0 || BuV) {
+        if (FPersonal > 0 || Wasser > 0 || WasserPump > 0 || WasserPumpSpeed > 0 || BTMin > 0 || BTMax > 0 || BuV || MaxGef > 0) {
             let updatedText = `<b><u>Informationen</u></b>`
             $('#aao-info').append('<br>' + updatedText + '<br>');
         }
@@ -438,6 +449,10 @@
         }
         if (BTMin > 0 || BTMax > 0){
             let updatedText = `[${BTMin} - ${BTMax} Betroffene]`;
+            $('#aao-info').append(updatedText + ' ');
+        }
+        if (MaxGef > 0){
+            let updatedText = `[0 - ${MaxGef} Gefangene/r]`;
             $('#aao-info').append(updatedText + ' ');
         }
         if (BuV){
