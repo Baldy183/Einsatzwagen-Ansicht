@@ -465,7 +465,7 @@
         }
     }
 
-    // Funktion zum Laden der Missionsspezifikationen und Update der NA-Wahrscheinlichkeit
+    // Funktion zum Laden der Missionsspezifikationen
     async function init() {
         if (!sessionStorage.getItem("mission_specs_cache")) {
             await $.getJSON(`https://www.leitstellenspiel.de/einsaetze.json`, data => {
